@@ -1,8 +1,8 @@
 from flask import render_template, redirect, url_for, request, flash, Blueprint
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
-
 from flask_login import login_required, logout_user
+from flask_mail import Message
 
 auth = Blueprint('auth', __name__)
 
@@ -26,7 +26,7 @@ def login():
 
             return redirect(url_for('main.profile'))
         else:
-            flash(u"Логин или пароль не некорректны", 'error')
+            flash('Логин или пароль не корректны!')
 
     return render_template('login.html')
 
@@ -35,30 +35,31 @@ def login():
 def register():
     from __init__ import User
     from __init__ import db
+    from forms import RegisterForm
 
-    name = request.form.get('name')
-    login = request.form.get('email')
-    psw = request.form.get('pass')
-    psw2 = request.form.get('pass2')
+    form = RegisterForm()
 
-    if request.method == 'POST':
-        if not (login or psw or psw2 or name):
-            flash(u'Заполните все поля', 'error')
-        elif psw != psw2:
-            flash(u'Пароли не совпадают', 'error')
-        elif User.query.filter_by(login=login).first():
-            flash(u"Логин уже существует", 'error')
-        elif User.query.filter_by(name=name).first():
-            flash(u"Такое имя уже существует", 'error')
+    if form.validate_on_submit():
+        login = User.query.filter_by(login=form.email.data).first()
+        name = User.query.filter_by(name=form.name.data).first()
+
+        if login:
+            flash('Такая электронная почта уже существует!')
+        elif name:
+            flash('Такой пользователь уже существует!')
+        elif form.password.data != form.confirm_password.data:
+            flash('Пароли не совпадают!')
         else:
-            hash_psw = generate_password_hash(psw)
-            new_user = User(login=login, password=hash_psw, name=name)
+            hash_password = generate_password_hash(form.password.data)
+            new_user = User(name=form.name.data, login=form.email.data, password=hash_password)
+
             db.session.add(new_user)
             db.session.commit()
+            return redirect(url_for('auth.login'))
 
-            return redirect('login')
 
-    return render_template('register.html')
+
+    return render_template('register.html', form=form)
 
 
 @auth.route('/logout', methods=['GET', 'POST'])
@@ -74,5 +75,27 @@ def redirect_login(responce):
         return redirect(url_for('login') + '?next' + request.url)
 
     return responce
+
+@auth.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    from forms import ForgoutPasswordForm
+    from __init__ import User
+    from __init__ import db
+
+    form = ForgoutPasswordForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(login=form.email.data).first()
+        name = User.query.filter_by(name=form.name.data).first()
+
+        if name and user:
+            hash_password = generate_password_hash(form.password.data)
+            user.password = hash_password
+
+            db.session.commit()
+            return redirect(url_for('auth.login'))
+        else:
+            flash('Такого имени или почты не существует!')
+    return render_template('ResetPassword.html', form=form)
 
 

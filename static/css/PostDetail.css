@@ -1,31 +1,28 @@
-.u-section-2 .u-sheet-2 {
-  min-height: 688px;
-}
-
-.u-section-2 .u-group-2 {
+.u-section-1 .u-group-2 {
   width: 558px;
   background-image: none;
   box-shadow: 21px 14px 35px 0 rgba(0,0,0,0.4);
   min-height: 688px;
   height: auto;
-  margin: -7px auto 7px;
+  margin: 20px auto 0 60px !important;
+
 }
 
-.u-section-2 .u-container-layout-2 {
+.u-section-1 .u-container-layout-2 {
   padding: 15px 17px;
 }
 
-.u-section-2 .u-text-3 {
+.u-section-1 .u-text-3 {
   font-size: 1.25rem;
   margin: 0 30px;
 }
 
-.u-section-2 .u-text-4 {
+.u-section-1 .u-text-4 {
   font-size: 1rem;
   margin: 20px 14px 0 46px;
 }
 
-.u-section-2 .u-btn-2 {
+.u-section-1 .u-btn-2 {
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.875rem;
@@ -35,59 +32,59 @@
 }
 
 @media (max-width: 1199px) {
-  .u-section-2 .u-group-2 {
+  .u-section-1 .u-group-2 {
     margin-top: 0;
     margin-bottom: 0;
     margin-left: 174px;
     height: auto;
   }
 
-  .u-section-2 .u-text-4 {
+  .u-section-1 .u-text-4 {
     width: auto;
     margin-top: 18px;
     margin-left: 30px;
     margin-right: 30px;
   }
 
-  .u-section-4 .u-btn-2 {
+  .u-section-1 .u-btn-2 {
     margin-top: 536px;
     margin-left: 387px;
   }
 }
 
 @media (max-width: 991px) {
-  .u-section-2 .u-group-2 {
+  .u-section-1 .u-group-2 {
     margin-left: auto;
   }
 }
 
 @media (max-width: 767px) {
-  .u-section-2 .u-group-2 {
+  .u-section-1 .u-group-2 {
     width: 540px;
   }
 
-  .u-section-2 .u-container-layout-2 {
+  .u-section-1 .u-container-layout-2 {
     padding-left: 10px;
     padding-right: 10px;
   }
 
-  .u-section-2 .u-text-3 {
+  .u-section-1 .u-text-3 {
     margin-left: 28px;
     margin-right: 28px;
   }
 
-  .u-section-2 .u-text-4 {
+  .u-section-1 .u-text-4 {
     margin-right: 27px;
     margin-left: 28px;
   }
 
-  .u-section-2 .u-btn-2 {
+  .u-section-1 .u-btn-2 {
     margin-left: 382px;
   }
 }
 
 @media (max-width: 575px) {
-  .u-section-2 .u-group-2 {
+  .u-section-1 .u-group-2 {
     min-height: 662px;
     margin-bottom: 26px;
     margin-right: initial;
@@ -95,21 +92,21 @@
     width: auto;
   }
 
-  .u-section-2 .u-container-layout-2 {
+  .u-section-1 .u-container-layout-2 {
     padding-bottom: 0;
   }
 
-  .u-section-2 .u-text-3 {
+  .u-section-1 .u-text-3 {
     margin-left: 0;
     margin-right: 0;
   }
 
-  .u-section-2 .u-text-4 {
+  .u-section-1 .u-text-4 {
     margin-left: 0;
     margin-right: 0;
   }
 
-  .u-section-2 .u-btn-2 {
+  .u-section-1 .u-btn-2 {
     margin-top: 518px;
     margin-left: auto;
   }

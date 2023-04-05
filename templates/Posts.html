@@ -1,17 +1,16 @@
 {% extends 'articles.html' %}
 
+
 {% block content %}
-
-<div class="u-border-2 u-border-grey-dark-1 u-container-style u-grey-10 u-group u-opacity u-opacity-85 u-radius-34 u-shape-round u-group-2">
-    {% for el in article %}
-      <div class="u-container-layout u-valign-top u-container-layout-2">
-        <h6 class="u-text u-text-3">{{ el.title}}</h6>
-        <h6 class="u-text u-text-4">{{ el.textFor}}</h6>
-        <a href="/posts" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-2-light-1 u-radius-50 u-btn-2">Закрыть</a>
-      </div>
-    {% endfor %}
+<div class="u-clearfix u-sheet u-sheet-1">
+  <div class="u-border-2 u-border-grey-dark-1 u-container-style u-grey-10 u-group u-opacity u-opacity-85 u-radius-35 u-shape-round u-group-2">
+    <div class="u-container-layout u-valign-top u-container-layout-2">
+      <div class="texthiden"><h6 class="u-text u-text-3">{{ article.title}}</h6></div>
+      <div class="texthiden"><h6 class="u-text u-text-4">{{ article.textFor}}</h6></div>
+      <a href="{{ url_for('main.posts') }}" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-2-light-1 u-radius-50 u-btn-2">Закрыть</a>
+    </div>
+  </div>
 </div>
-
 
 {% endblock %}
 

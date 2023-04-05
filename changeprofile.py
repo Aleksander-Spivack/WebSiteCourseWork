@@ -1,6 +1,9 @@
 from flask import render_template, redirect, url_for, request, flash, Blueprint
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import check_password_hash, generate_password_hash
+import os
+from werkzeug.utils import secure_filename
+
 
 changeprof = Blueprint('changeprof', __name__)
 
@@ -14,36 +17,29 @@ def settingmain():
 def changepassword():
     from __init__ import User
     from __init__ import db
+    from forms import ResetPasswordForm
 
-    oldpass = request.form.get('oldpass')
-    newpass = request.form.get('newpass')
-    id = User.query.filter(User.id).first()
+    form = ResetPasswordForm()
 
-    if request.method == 'POST':
-        hash_oldpass = generate_password_hash(oldpass)
-        if not (oldpass or newpass):
-            flash('Заполните все поля!')
-        elif oldpass == newpass:
-            flash('Пароли не должны совпадать')
+    if form.validate_on_submit():
+        user = User.query.filter_by(login=form.email.data).first()
 
-        if id and check_password_hash(id.password, hash_oldpass):
+        if user:
+            if user and check_password_hash(user.password, form.password.data):
+                if form.password.data == form.confirm_password.data:
+                    flash('Пароли не должны совпадать!')
+                else:
+                    hash_password = generate_password_hash(form.confirm_password.data)
+                    user.password = hash_password
 
-            flash('Неправильно введен текущий пароль')
+                    db.session.commit()
+                    return redirect(url_for('changeprof.settingmain'))
+            else:
+                flash('Старый пароль не совпадает с текущим!')
+
         else:
-            hash_newpass = generate_password_hash(newpass)
-            newpass = User(password=hash_newpass, name=current_user.name, login=current_user.login, id=current_user.id)
-
-            User.query.filter(User.login).delete()
-            User.query.filter(User.id).delete()
-            User.query.filter(User.name).delete()
-            User.query.filter(User.password).delete()
-            db.session.add(newpass)
-            db.session.commit()
-
-            redirect(url_for('changeprof.settingmain'))
-
-
-    return render_template('ChangePassword.html')
+            flash('Такой почты не существует!')
+    return render_template('ChangePassword.html', form=form)
 
 
 @changeprof.route('/profile/setting/name', methods=['POST', 'GET'])
@@ -51,36 +47,25 @@ def changepassword():
 def changename():
     from __init__ import db
     from __init__ import User
+    from forms import ResetNameForm
 
-    newname = request.form.get('name')
+    form=ResetNameForm()
 
-    if request.method == 'POST':
-        if not (newname):
-            flash('Заполните поле!')
-        elif newname == User.name:
-            flash('Новое имя не должно совпадать с текущим!')
+    if form.validate_on_submit():
+        user = User.query.filter_by(login=form.email.data).first()
 
+        if user:
+            if user.name == form.name.data:
+                flash('Текущее имя не должно совпадать с новым!')
+
+            else:
+                user.name = form.name.data
+
+                db.session.commit()
+
+                return redirect(url_for('changeprof.settingmain'))
         else:
-            newpass = User(password=current_user.password, name=newname, login=current_user.login, id=current_user.id)
+            flash('Такой почты не существует!')
 
-            User.query.filter(User.login).delete()
-            User.query.filter(User.id).delete()
-            User.query.filter(User.name).delete()
-            User.query.filter(User.password).delete()
+    return render_template('ChangeName.html', form=form)
 
-            db.session.add(newpass)
-            db.session.commit()
-
-    return render_template('ChangeName.html')
-
-
-@changeprof.route('/profile/setting/ava')
-@login_required
-def changeava():
-    return render_template('ChangeAva.html')
-
-
-@changeprof.route('/profile/setting/change/cover')
-@login_required
-def changecover():
-    return render_template('ChangeCover.html')

@@ -13,7 +13,9 @@ def base():
 @main.route('/profile')
 @login_required
 def profile():
+
     return render_template('ProfileMarket.html', name=current_user.name)
+
 
 @main.route('/profile/articles', methods=['POST', 'GET'])
 def articles_create():
@@ -53,3 +55,32 @@ def post_detail(id):
     article = Article.query.get(id)
 
     return render_template('Posts.html', article=article)
+
+
+@main.route('/contact/form', methods=['POST', 'GET'])
+def contactForm():
+    return render_template('contactForm.html')
+
+
+@main.route('/marketplace/content', methods=['POST', 'GET'])
+def category_servise():
+    return render_template('MarketContent.html')
+
+@main.route('/marketplace/posts_content', methods=['POST', 'GET'])
+def postcontent():
+    from forms import PostMarketPlaceForm
+    from __init__ import User, Product, db
+
+    form = PostMarketPlaceForm()
+    if current_user.is_authenticated:
+        if form.validate_on_submit():
+
+            new_product = Product(title=form.title.data, intro=form.litle_inform, maintext=form.inform_main)
+
+            db.session.add(new_product)
+            db.session.commit()
+            return redirect(url_for('main.category_servise'))
+    else:
+        return redirect(url_for('auth.login'))
+
+    return render_template('MarketplacePost.html', form=form)

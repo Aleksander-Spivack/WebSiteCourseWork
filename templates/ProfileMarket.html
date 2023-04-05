@@ -20,7 +20,6 @@
           <li>
               <a class="dropdown-item ctaM" href="#"><i class="fa fa-gear" aria-hidden="true"></i> Другое действие</a>
           </li>
-        <li><a class="dropdown-item ctaM" href="#">Настройки</a></li>
         <li><hr class="dropdown-divider"></li>
         <li><a class="dropdown-item с" href="{{ url_for('auth.logout') }}">Выйти из аккаунта</a></li>
       </ul>
@@ -28,7 +27,7 @@
             <ul class="nav__links">
                 <li><a href="{{ url_for('main.base') }}">Маркет</a></li>
                 <li><a href="{{ url_for('main.posts') }}">Статьи</a></li>
-                <li><a data-bs-toggle="offcanvas" role="button" aria-controls="offcanvasExample" href="#staticBackdrop">Обратная связь</a></li>
+                <li><a href="{{ url_for('main.contactForm') }}">Обратная связь</a></li>
             </ul>
         </nav>
 
@@ -45,17 +44,8 @@
         </div>
     </div>
 
-    <div class="offcanvas text-bg-dark offcanvas-bottom " data-bs-backdrop="static" tabindex="-1" id="staticBackdrop" aria-labelledby="staticBottomLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="staticBackdropLabel">Обратная связь</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Закрыть"></button>
-      </div>
-      <div class="offcanvas-body">
-        <div>
-
-        </div>
-      </div>
-    </div>
+    {% block body %}
+    {% endblock %}
 
     <section class="skrollable u-align-center u-clearfix u-section-1" id="sec-f81c">
       <div class="u-clearfix u-sheet u-sheet-1">
@@ -67,7 +57,7 @@
                 <p class="u-text u-text-1">Имя: {{ name }} - id ({{ current_user.get_id() }})</p>
                 <p class="u-text u-text-2">() кол-во продаж</p>
                 <p class="u-text u-text-3">() кол-во покупок</p>
-                <p class="u-align-center u-text u-text-4">&nbsp;кошелек:<br> рублей <span style="font-weight: 700;"></span>
+                <p class="u-align-center u-text u-text-4">&nbsp;<br> <span style="font-weight: 700;"></span>
                 </p>
                 <a href="profile/setting" class="u-border-none u-btn u-btn-round u-button-style u-hover-palette-1-dark-1 u-palette-1-light-1 u-radius-50 u-text-grey-15 u-btn-1"><span class="u-icon u-icon-1"><svg class="u-svg-content" viewBox="0 0 54 54" x="0px" y="0px" style="width: 1em; height: 1em;"><g><path d="M51.22,21h-5.052c-0.812,0-1.481-0.447-1.792-1.197s-0.153-1.54,0.42-2.114l3.572-3.571
 		c0.525-0.525,0.814-1.224,0.814-1.966c0-0.743-0.289-1.441-0.814-1.967l-4.553-4.553c-1.05-1.05-2.881-1.052-3.933,0l-3.571,3.571
